@@ -1,14 +1,16 @@
 package net.patttern.console.minesweeper.proto;
 
 /**
- * Created by pattern on 26.08.15.
+ * Created by ebabenko on 27.08.15.
  */
-public interface BaseLogic {
-  void loadBoard(Cell[][] cells);
+public class BaseLogic implements ILogic {
+  protected Cell[][] cells;
+  protected int boardWidth;
+  protected int boardHeight;
 
-  boolean shouldBang(int x, int  y);
+  @Override
+  public void loadBoard(Cell[][] cells) {
 
-  boolean finish();
+  }
 
-  void suggest(int x, int y, boolean bomb);
 }

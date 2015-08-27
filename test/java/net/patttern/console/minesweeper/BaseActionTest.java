@@ -5,7 +5,6 @@ import net.patttern.console.minesweeper.common.GameCell;
 import net.patttern.console.minesweeper.modes.Easy;
 import net.patttern.console.minesweeper.proto.BaseAction;
 import net.patttern.console.minesweeper.proto.Cell;
-import net.patttern.console.minesweeper.proto.GeneratorBoard;
 import org.junit.Test;
 
 /**

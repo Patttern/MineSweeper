@@ -1,8 +1,7 @@
 package net.patttern.console.minesweeper.gui;
 
 import net.patttern.console.minesweeper.proto.BaseAction;
-import net.patttern.console.minesweeper.proto.BaseLogic;
-import net.patttern.console.minesweeper.proto.Board;
+import net.patttern.console.minesweeper.proto.ILogic;
 import net.patttern.console.minesweeper.proto.GeneratorBoard;
 
 import java.awt.event.ActionEvent;
@@ -16,7 +15,7 @@ import java.awt.event.MouseListener;
 public class GUIAction extends BaseAction implements ActionListener, MouseListener {
   private GUIBoard board;
 
-  public GUIAction(BaseLogic logic, GUIBoard board, GeneratorBoard generator) {
+  public GUIAction(ILogic logic, GUIBoard board, GeneratorBoard generator) {
     super(logic, board, generator);
     this.board = board;
     this.board.addMouseListener(this);

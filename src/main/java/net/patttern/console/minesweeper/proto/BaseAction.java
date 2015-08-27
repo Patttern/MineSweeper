@@ -1,14 +1,16 @@
 package net.patttern.console.minesweeper.proto;
 
+import net.patttern.console.minesweeper.proto.interfaces.Area;
+
 /**
  * Created by pattern on 26.08.15.
  */
 public class BaseAction implements UserAction {
   private  final  GeneratorBoard generator;
-  private final Board board;
-  private final BaseLogic logic;
+  private final Area board;
+  private final ILogic logic;
 
-  public BaseAction(final BaseLogic logic, final Board board, final GeneratorBoard generator) {
+  public BaseAction(final ILogic logic, final Area board, final GeneratorBoard generator) {
     this.logic = logic;
     this.board = board;
     this.generator = generator;

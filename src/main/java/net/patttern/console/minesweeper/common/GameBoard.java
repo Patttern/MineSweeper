@@ -1,13 +1,18 @@
 package net.patttern.console.minesweeper.common;
 
-import net.patttern.console.minesweeper.proto.Board;
+import net.patttern.console.minesweeper.proto.interfaces.Area;
 import net.patttern.console.minesweeper.proto.Cell;
 
 /**
  * Created by pattern on 26.08.15.
  */
-public class GameBoard implements Board {
+public class GameBoard implements Area {
   private Cell[][] cells;
+
+  @Override
+  public void setAreaSize(int width, int height) {
+
+  }
 
   public void drawBoard(Cell[][] cells) {
     this.cells = cells;

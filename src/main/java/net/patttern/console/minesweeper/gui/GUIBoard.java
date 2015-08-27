@@ -1,6 +1,6 @@
 package net.patttern.console.minesweeper.gui;
 
-import net.patttern.console.minesweeper.proto.Board;
+import net.patttern.console.minesweeper.proto.interfaces.Area;
 import net.patttern.console.minesweeper.proto.Cell;
 
 import javax.swing.*;
@@ -9,7 +9,7 @@ import java.awt.*;
 /**
  * Created by pattern on 26.08.15.
  */
-public class GUIBoard extends JPanel implements Board {
+public class GUIBoard extends JPanel implements Area {
   public static final int PADDING = 41;
   public Cell<Graphics>[][] cells;
 
@@ -25,6 +25,11 @@ public class GUIBoard extends JPanel implements Board {
         }
       }
     }
+  }
+
+  @Override
+  public void setAreaSize(int width, int height) {
+
   }
 
   @Override
