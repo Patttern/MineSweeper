@@ -6,7 +6,7 @@ import net.patttern.console.minesweeper.proto.interfaces.Area;
  * Created by pattern on 26.08.15.
  */
 public class BaseAction implements UserAction {
-  private  final  GeneratorBoard generator;
+  private final GeneratorBoard generator;
   private final Area board;
   private final ILogic logic;
 

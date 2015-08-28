@@ -5,6 +5,6 @@ package net.patttern.console.minesweeper.console;
  */
 public class CRun {
   public static void main(String[] args) {
-    CArea board = new CArea(9, 9, 10);
+    CArea board = new CArea(9, 9, 45);
   }
 }

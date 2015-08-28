@@ -3,9 +3,8 @@ package net.patttern.console.minesweeper;
 import net.patttern.console.minesweeper.gui.GUIAction;
 import net.patttern.console.minesweeper.gui.GUIBoard;
 import net.patttern.console.minesweeper.gui.GUICell;
-import net.patttern.console.minesweeper.modes.Easy;
+import net.patttern.console.minesweeper.modes.EasyOld;
 import net.patttern.console.minesweeper.proto.Cell;
-import net.patttern.console.minesweeper.proto.GeneratorBoard;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -45,7 +44,7 @@ public class Main {
       frame.add(controlPanel, BorderLayout.PAGE_END);
       controlPanel.setLayout(new FlowLayout());
       final JButton generate = new JButton("Начать");
-      Easy easy = new Easy();
+      EasyOld easy = new EasyOld();
       generate.addActionListener(
         new GUIAction(
           easy,

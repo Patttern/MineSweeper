@@ -1,4 +1,4 @@
-package net.patttern.console.minesweeper.proto.provided;
+package net.patttern.console.minesweeper.proto.bases;
 
 import net.patttern.console.minesweeper.proto.Cell;
 import net.patttern.console.minesweeper.proto.interfaces.Area;
@@ -6,7 +6,7 @@ import net.patttern.console.minesweeper.proto.interfaces.Area;
 /**
  * Created by ebabenko on 27.08.15.
  */
-public abstract class BaseArea implements Area {
+public abstract class BaseArea<T> implements Area {
   protected Cell[][] cells;
 
   @Override

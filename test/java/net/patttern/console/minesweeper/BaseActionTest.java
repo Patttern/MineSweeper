@@ -2,7 +2,7 @@ package net.patttern.console.minesweeper;
 
 import net.patttern.console.minesweeper.common.GameBoard;
 import net.patttern.console.minesweeper.common.GameCell;
-import net.patttern.console.minesweeper.modes.Easy;
+import net.patttern.console.minesweeper.modes.EasyOld;
 import net.patttern.console.minesweeper.proto.BaseAction;
 import net.patttern.console.minesweeper.proto.Cell;
 import org.junit.Test;
@@ -12,7 +12,7 @@ import org.junit.Test;
  */
 public class BaseActionTest {
   final BaseAction action = new BaseAction(
-    new Easy(),
+    new EasyOld(),
     new GameBoard(),
     () -> new Cell[][] {
       {new GameCell(true), new GameCell(false)},

@@ -1,56 +1,42 @@
-package net.patttern.console.minesweeper.console;
+package net.patttern.console.minesweeper.proto.bases;
+
+import net.patttern.console.minesweeper.proto.interfaces.Generator;
 
 import java.util.Arrays;
 import java.util.Random;
 import java.util.stream.IntStream;
 
 /**
- * Created by ebabenko on 27.08.15.
+ * Created by ebabenko on 28.08.15.
  */
-public class CArea {
-  private int mineCount;
-  private int placesInLine;
+public abstract class BaseGenerator<T> implements Generator {
   private int linesOnArea;
-  private CCell[][] cells;
+  private int placesInLine;
+  private BaseCell<T>[][] cells;
 
-  /**
-   * Конструктор класса.
-   * @param placesInLine Количество мест в ряду.
-   * @param linesOnArea Количество рядов.
-   * @param mineCount Количество мин.
-   */
-  public CArea(int placesInLine, int linesOnArea, int mineCount) {
-    this.placesInLine = placesInLine;
-    this.linesOnArea = linesOnArea;
-    this.mineCount = mineCount;
-    cells = new CCell[linesOnArea][placesInLine];
-    generate();
-    makeMine();
-    drawBoard();
-  }
-
-  /**
-   * Генерация поля.
-   */
-  private void generate() {
+  @Override
+  public BaseCell[][] generate() {
+    cells = new BaseCell[linesOnArea][placesInLine];
     for (int line = 0; line < linesOnArea; line++) {
       for (int place = 0; place < placesInLine; place++) {
         int cellId = line * placesInLine + place + 1;
-        cells[line][place] = new CCell(cellId);
+        cells[line][place] = new BaseCell<T>(cellId) {
+          @Override
+          public void draw(T paint) {}
+
+          @Override
+          public void draw(T paint, int count) {}
+        };
       }
     }
-//    cells[2][3].mark();
-//    cells[3][5].mark();
-//    cells[0][6].mark();
-//    cells[7][2].mark();
+    return cells;
   }
 
-  /**
-   * Распределение мин.
-   */
-  private void makeMine() {
+  @Override
+  public int[] makeMine(int mineCount) {
     int[] possible = IntStream.rangeClosed(1, placesInLine * linesOnArea).toArray();
     Random rand = new Random();
+    int[] result = new int[]{};
     int mined = 0;
     while (possible.length > 0 && mined < mineCount) {
       int cellId = possible[rand.nextInt(possible.length)];
@@ -59,12 +45,14 @@ public class CArea {
       int place = cellId - 1 - line * placesInLine;
       if (canMined(line, place)) {
         cells[line][place].setMine();
+        result[mined] = cellId;
         mined++;
         System.out.println("Mined: cells[" + line + "][" + place + "]");
       } else {
         System.out.println("Remined: cells[" + line + "][" + place + "]");
       }
     }
+    return result;
   }
 
   /**
@@ -82,30 +70,30 @@ public class CArea {
     return
       // Ячейка еще не заминирована?
       !cellMined(line, place) &&
-      // Top
-      // [*]
-      // [*]
-      // [?]
-      (!cellMined(line-1, place) || !cellMined(line-2, place))
-      // Right
-      // [?][*][*]
-      && (!cellMined(line, place+1) || !cellMined(line, place+2))
-      // Bottom
-      // [?]
-      // [*]
-      // [*]
-      && (!cellMined(line+1, place) || !cellMined(line+2, place))
-      // Left
-      // [*][*][?]
-      && (!cellMined(line, place-1) || !cellMined(line, place-2))
-      // Left and Right
-      // [*][?][*]
-      && (!cellMined(line, place-1) || !cellMined(line, place+1))
-      // Top and Bottom
-      // [*]
-      // [?]
-      // [*]
-      && (!cellMined(line-1, place) || !cellMined(line+1, place))
+        // Top
+        // [*]
+        // [*]
+        // [?]
+        (!cellMined(line-1, place) || !cellMined(line-2, place))
+        // Right
+        // [?][*][*]
+        && (!cellMined(line, place+1) || !cellMined(line, place+2))
+        // Bottom
+        // [?]
+        // [*]
+        // [*]
+        && (!cellMined(line+1, place) || !cellMined(line+2, place))
+        // Left
+        // [*][*][?]
+        && (!cellMined(line, place-1) || !cellMined(line, place-2))
+        // Left and Right
+        // [*][?][*]
+        && (!cellMined(line, place-1) || !cellMined(line, place+1))
+        // Top and Bottom
+        // [*]
+        // [?]
+        // [*]
+        && (!cellMined(line-1, place) || !cellMined(line+1, place))
       ;
   }
 
@@ -147,54 +135,5 @@ public class CArea {
       + (cellMined(line+1, place-1) ? 1 : 0)
       + (cellMined(line, place-1) ? 1 : 0)
       + (cellMined(line-1, place-1) ? 1 : 0);
-  }
-
-  /**
-   * Рисование поля.
-   */
-  public void drawBoard() {
-    // Заголовок
-    // 1 строка
-    String str = "   |";
-    for (int s = 0; s < placesInLine; s++) {
-      str += String.format("%2s ", s);
-    }
-    System.out.println(str);
-    // 2 строка
-    str = "-";
-    for (int s = 0; s < (placesInLine + 1) * 3; s++) {
-      str += "-";
-    }
-    System.out.println(str);
-    // Рабочая область.
-    for (int line = 0; line < linesOnArea; line++) {
-      System.out.print(String.format("%3s|", line));
-      for (int place = 0; place < placesInLine; place++) {
-        drawCell(cells[line][place], nearMinesCount(line, place));
-      }
-      System.out.println();
-    }
-    System.out.println();
-  }
-
-  /**
-   * Рисование ячейки.
-   * @param cell Ссылка на объект ячейки.
-   * @param count Количество рядом находящихся заминированных ячеек.
-   */
-  public void drawCell(CCell cell, int count) {
-    cell.draw(System.out, count);
-  }
-
-  /**
-   * Оповещение взрыва.
-   */
-  public void drawBang() {
-  }
-
-  /**
-   * Оповещение победы.
-   */
-  public void drawCongratulation() {
   }
 }
