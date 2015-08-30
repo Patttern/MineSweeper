@@ -16,11 +16,6 @@ public abstract class BaseCell<T> implements Cell<T> {
   }
 
   @Override
-  public boolean isMine() {
-    return mine;
-  }
-
-  @Override
   public void setMine() {
     if (!mine && !flag && !selected) {
       mine = true;
@@ -28,8 +23,18 @@ public abstract class BaseCell<T> implements Cell<T> {
   }
 
   @Override
+  public boolean isMine() {
+    return mine;
+  }
+
+  @Override
   public boolean isFlag() {
     return flag;
+  }
+
+  @Override
+  public boolean isSelected() {
+    return selected;
   }
 
   @Override

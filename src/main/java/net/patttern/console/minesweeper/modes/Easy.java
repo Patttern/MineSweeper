@@ -1,14 +1,27 @@
 package net.patttern.console.minesweeper.modes;
 
 import net.patttern.console.minesweeper.proto.bases.BaseLogic;
+import net.patttern.console.minesweeper.proto.interfaces.Area;
+import net.patttern.console.minesweeper.proto.interfaces.Generator;
 
 /**
  * Created by ebabenko on 28.08.15.
  */
 public class Easy extends BaseLogic {
-  public Easy(final int placesInLine, final int linesOnArea, final int mineCount) {
-    this.placesInLine = placesInLine;
-    this.linesOnArea = linesOnArea;
-    this.mineCount = mineCount;
+  private static final int linesOnArea = 9;
+  private static final int placesInLine = 9;
+  private static final int mineCount = 10;
+
+  public Easy(Area area, Generator generator) {
+    super(area, generator);
+  }
+
+  @Override
+  public void start() {
+    generator.prepare(linesOnArea, placesInLine);
+    cells = generator.generate();
+    mines = generator.makeMine(mineCount);
+    area.prepare(cells);
+    area.drawBoard();
   }
 }

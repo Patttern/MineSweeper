@@ -9,11 +9,6 @@ import net.patttern.console.minesweeper.proto.Cell;
 public class GameBoard implements Area {
   private Cell[][] cells;
 
-  @Override
-  public void setAreaSize(int width, int height) {
-
-  }
-
   public void drawBoard(Cell[][] cells) {
     this.cells = cells;
     this.redraw(false);
@@ -22,6 +17,21 @@ public class GameBoard implements Area {
   public void drawCell(int x, int y) {
     System.out.println("***** SELECT *****");
     this.redraw(false);
+  }
+
+  @Override
+  public void prepare(net.patttern.console.minesweeper.proto.interfaces.Cell[][] cells) {
+
+  }
+
+  @Override
+  public void drawBoard() {
+
+  }
+
+  @Override
+  public void drawCell(net.patttern.console.minesweeper.proto.interfaces.Cell cell, int count) {
+
   }
 
   public void drawBang() {

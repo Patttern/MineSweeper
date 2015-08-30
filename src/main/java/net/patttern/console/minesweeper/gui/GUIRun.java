@@ -1,10 +1,7 @@
-package net.patttern.console.minesweeper;
+package net.patttern.console.minesweeper.gui;
 
-import net.patttern.console.minesweeper.guiold.GUIAction;
-import net.patttern.console.minesweeper.guiold.GUIBoard;
-import net.patttern.console.minesweeper.guiold.GUICell;
+import net.patttern.console.minesweeper.modes.Easy;
 import net.patttern.console.minesweeper.modes.EasyOld;
-import net.patttern.console.minesweeper.proto.Cell;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,22 +12,22 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 
 /**
- * Created by pattern on 26.08.15.
+ * Created by pattern on 30.08.15.
  */
-public class Main {
-  private static final JPanel controlPanel = new JPanel();
-  private static final GUIBoard board = new GUIBoard();
+public class GUIRun {
   public static BufferedImage block;
   public static BufferedImage transp;
   public static BufferedImage flag;
   public static BufferedImage mine;
+  private static final JPanel controlPanel = new JPanel();
+  private static final GUIArea area = new GUIArea();
 
   public static void main(String[] args) {
     try {
-      transp = ImageIO.read(Main.class.getResourceAsStream("/images/cell-transparent.gif"));
-      block = ImageIO.read(Main.class.getResourceAsStream("/images/cell-unknown.gif"));
-      flag = ImageIO.read(Main.class.getResourceAsStream("/images/cell-mine.gif"));
-      mine = ImageIO.read(Main.class.getResourceAsStream("/images/cell-bomb.gif"));
+      transp = ImageIO.read(GUIRun.class.getResourceAsStream("/images/cell-transparent.gif"));
+      block = ImageIO.read(GUIRun.class.getResourceAsStream("/images/cell-unknown.gif"));
+      flag = ImageIO.read(GUIRun.class.getResourceAsStream("/images/cell-mine.gif"));
+      mine = ImageIO.read(GUIRun.class.getResourceAsStream("/images/cell-bomb.gif"));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -39,29 +36,13 @@ public class Main {
       frame.setTitle("Сапёр");
       frame.setLayout(new BorderLayout());
       frame.setSize(500, 500);
-      frame.add(board, BorderLayout.CENTER);
-      board.setBorder(new EmptyBorder(10, 10, 10, 10));
+      frame.add(area, BorderLayout.CENTER);
+      area.setBorder(new EmptyBorder(10, 10, 10, 10));
       frame.add(controlPanel, BorderLayout.PAGE_END);
       controlPanel.setLayout(new FlowLayout());
       final JButton generate = new JButton("Начать");
       EasyOld easy = new EasyOld();
-      generate.addActionListener(
-        new GUIAction(
-          easy,
-          board,
-          () -> {
-            int w = easy.getBoardWidth();
-            int h = easy.getBoardHeight();
-            Cell[][] cells = new Cell[w][h];
-            for (int x = 0; x < cells.length; x++) {
-              for (int y = 0; y < cells[0].length; y++) {
-                cells[x][y] = new GUICell(x, y);
-              }
-            }
-            return cells;
-          }
-        )
-      );
+      generate.addActionListener(new GUIAction(new Easy(area, new GUIGenerator()), area));
       controlPanel.add(generate);
       centre(frame);
       frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

@@ -18,13 +18,13 @@ public class BaseAction implements UserAction {
 
   public void initGame() {
     final Cell[][] cells = generator.generate();
-    this.board.drawBoard(cells);
+    this.board.drawBoard();
     this.logic.loadBoard(cells);
   }
 
   public void select(int x, int y, boolean bomb) {
     this.logic.suggest(x, y, bomb);
-    this.board.drawCell(x, y);
+//    this.board.drawCell(x, y);
     if (this.logic.shouldBang(x, y)) {
       this.board.drawBang();
     }

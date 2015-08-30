@@ -1,51 +1,48 @@
 package net.patttern.console.minesweeper.gui;
 
-import net.patttern.console.minesweeper.Main;
-import net.patttern.console.minesweeper.proto.Cell;
+import net.patttern.console.minesweeper.guiold.GUIBoard;
+import net.patttern.console.minesweeper.proto.bases.BaseCell;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
- * Created by pattern on 26.08.15.
+ * Created by pattern on 30.08.15.
  */
-public class GUICell implements Cell<Graphics> {
+public class GUICell extends BaseCell<Graphics> {
   private int posX;
   private int posY;
 
-  public GUICell(int posX, int posY) {
-    this.posX = posX;
-    this.posY = posY;
+  public GUICell(int id) {
+    super(id);
   }
 
   @Override
-  public boolean isBomb() {
-    return false;
+  public void draw(Graphics paint) {
+    draw(paint, 0);
   }
 
   @Override
-  public boolean isSuggestBomb() {
-    return false;
+  public void draw(Graphics paint, int count) {
+    BufferedImage image;
+    if (flag) {
+      image = GUIRun.flag;
+    } else {
+//      if (selected) {
+        if (mine) {
+          image = GUIRun.mine;
+        } else {
+          image = GUIRun.transp;
+        }
+//      } else {
+//        image = GUIRun.block;
+//      }
+    }
+    paint.drawImage(image, posX * GUIBoard.PADDING + 1, posY * GUIBoard.PADDING + 1, image.getWidth(), image.getHeight(), null);
   }
 
-  @Override
-  public boolean isSuggestEmpty() {
-    return false;
-  }
-
-  @Override
-  public void suggestEmpty() {
-
-  }
-
-  @Override
-  public void suggestBomb() {
-
-  }
-
-  @Override
-  public void draw(Graphics paint, boolean real) {
-    paint.drawImage(real ? Main.block : Main.mine, this.posX * GUIBoard.PADDING + 1, this.posY * GUIBoard.PADDING + 1, Main.block.getWidth(), Main.block.getHeight(), null);
+  public void setCoord(int x, int y) {
+    posX = x;
+    posY = y;
   }
 }

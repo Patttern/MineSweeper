@@ -1,7 +1,8 @@
-package net.patttern.console.minesweeper.gui;
+package net.patttern.console.minesweeper.guiold;
 
-import net.patttern.console.minesweeper.proto.bases.BaseAction;
-import net.patttern.console.minesweeper.proto.interfaces.Logic;
+import net.patttern.console.minesweeper.proto.BaseAction;
+import net.patttern.console.minesweeper.proto.ILogic;
+import net.patttern.console.minesweeper.proto.GeneratorBoard;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,18 +10,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 /**
- * Created by pattern on 30.08.15.
+ * Created by pattern on 26.08.15.
  */
 public class GUIAction extends BaseAction implements ActionListener, MouseListener {
-  private GUIArea area;
+  private GUIBoard board;
 
-  public GUIAction(Logic logic) {
-    super(logic);
-  }
-
-  public GUIAction(Logic logic, GUIArea area) {
-    super(logic);
-    this.area = area;
+  public GUIAction(ILogic logic, GUIBoard board, GeneratorBoard generator) {
+    super(logic, board, generator);
+    this.board = board;
+    this.board.addMouseListener(this);
   }
 
   @Override
@@ -30,15 +28,17 @@ public class GUIAction extends BaseAction implements ActionListener, MouseListen
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    area.repaint();
+    board.repaint();
   }
 
   @Override
   public void mousePressed(MouseEvent e) {
+
   }
 
   @Override
   public void mouseReleased(MouseEvent e) {
+
   }
 
   @Override

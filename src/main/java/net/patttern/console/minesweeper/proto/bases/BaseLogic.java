@@ -1,23 +1,26 @@
 package net.patttern.console.minesweeper.proto.bases;
 
-import net.patttern.console.minesweeper.console.CCell;
+import net.patttern.console.minesweeper.proto.interfaces.Area;
+import net.patttern.console.minesweeper.proto.interfaces.Cell;
+import net.patttern.console.minesweeper.proto.interfaces.Generator;
 import net.patttern.console.minesweeper.proto.interfaces.Logic;
 
 /**
  * Created by ebabenko on 28.08.15.
  */
-public abstract class BaseLogic<T> implements Logic {
-  private int[] mines;
-  protected int mineCount;
-  protected int placesInLine;
-  protected int linesOnArea;
-  protected BaseCell<T>[][] cells;
+public abstract class BaseLogic implements Logic {
+  protected Area area;
+  protected Generator generator;
+  protected Cell[][] cells;
+  protected int[] mines;
+
+  public BaseLogic(Area area, Generator generator) {
+    this.area = area;
+    this.generator = generator;
+  }
 
   @Override
-  public void start() {
-    cells = new BaseCell[linesOnArea][placesInLine];
-    //TODO ???
-  }
+  abstract public void start();
 
   @Override
   public void selectCell(int line, int place) {
@@ -31,35 +34,41 @@ public abstract class BaseLogic<T> implements Logic {
 
   @Override
   public boolean finish() {
-    return isMinesFound();
-  }
-
-  /**
-   * Проверка, существует ли ячейка.
-   * @param line Ряд.
-   * @param place Место.
-   * @return TRUE, если ячейка существует, FALSE в ином случае.
-   */
-  public boolean cellInRange(int line, int place) {
-    return line >=0 && line < linesOnArea && place >=0 && place < placesInLine;
-  }
-
-  public void setMines(int[] mines) {
-    this.mines = mines;
+    return isMinesFound() && isCellsOpened();
   }
 
   private boolean isMinesFound() {
     boolean result = true;
-    for (int i = 0; i < mines.length; i++) {
-      BaseCell<T> cell = getCellById(mines[i]);
-      result = result && cell.isMine() && cell.isFlag();
+    for (int m = 0; m < mines.length; m++) {
+      result = result && getCellById(mines[m]).isFlag();
+      if (!result) {
+        break;
+      }
     }
     return result;
   }
 
-  private BaseCell getCellById(int cellId) {
-    int line = (int)Math.ceil((cellId - 1) / linesOnArea);
-    int place = cellId - 1 - line * placesInLine;
+  private  boolean isCellsOpened() {
+    boolean result = true;
+    if (result) {
+      for (int line = 0; line < cells.length; line++) {
+        for (int place = 0; place < cells[0].length; place++) {
+          result = result && ((cells[line][place].isMine() && cells[line][place].isFlag()) || cells[line][place].isSelected());
+          if (!result) {
+            break;
+          }
+        }
+        if (!result) {
+          break;
+        }
+      }
+    }
+    return result;
+  }
+
+  private Cell getCellById(int cellId) {
+    int line = (int)Math.ceil((cellId - 1) / cells.length);
+    int place = cellId - 1 - line * cells[0].length;
     return cells[line][place];
   }
 }

@@ -1,30 +1,61 @@
-package net.patttern.console.minesweeper.proto.bases;
+package net.patttern.console.minesweeper.gui;
 
 import net.patttern.console.minesweeper.proto.interfaces.Area;
 import net.patttern.console.minesweeper.proto.interfaces.Cell;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 /**
  * Created by pattern on 30.08.15.
  */
-public abstract class BaseArea implements Area {
-  protected Cell[][] cells;
-  protected int linesOnArea;
-  protected int placesInLine;
+public class GUIArea extends JPanel implements Area, MouseListener {
+  public static final int PADDING = 41;
+  private Cell[][] cells;
+  private int linesOnArea;
+  private int placesInLine;
 
   @Override
-  abstract public void prepare(Cell[][] cells);
+  public void paintComponent(Graphics graphics) {
+    super.paintComponent(graphics);
+    if (this.cells != null) {
+      for (int line = 0; line < cells.length; line++) {
+        for (int place = 0; place < cells[0].length; place++) {
+          graphics.setColor(Color.cyan);
+          cells[line][place].draw(graphics, nearMinesCount(line, place));
+          graphics.drawRect(line * PADDING, place * PADDING, PADDING, PADDING);
+        }
+      }
+    }
+  }
 
   @Override
-  abstract public void drawBoard();
+  public void prepare(Cell[][] cells) {
+    this.cells = cells;
+    linesOnArea = this.cells.length;
+    placesInLine = this.cells[0].length;
+  }
 
   @Override
-  abstract public void drawCell(Cell cell, int count);
+  public void drawBoard() {
+    this.repaint();
+  }
 
   @Override
-  abstract public void drawBang();
+  public void drawCell(Cell cell, int count) {
+  }
 
   @Override
-  abstract public void drawCongratulate();
+  public void drawBang() {
+
+  }
+
+  @Override
+  public void drawCongratulate() {
+
+  }
 
   /**
    * Проверка, установлена ли в ячейке мина.
@@ -64,5 +95,30 @@ public abstract class BaseArea implements Area {
       + (cellMined(line+1, place-1) ? 1 : 0)
       + (cellMined(line, place-1) ? 1 : 0)
       + (cellMined(line-1, place-1) ? 1 : 0);
+  }
+
+  @Override
+  public void mouseClicked(MouseEvent e) {
+    System.out.println("mouseClicked");
+  }
+
+  @Override
+  public void mousePressed(MouseEvent e) {
+    System.out.println("mousePressed");
+  }
+
+  @Override
+  public void mouseReleased(MouseEvent e) {
+    System.out.println("mouseReleased");
+  }
+
+  @Override
+  public void mouseEntered(MouseEvent e) {
+
+  }
+
+  @Override
+  public void mouseExited(MouseEvent e) {
+
   }
 }

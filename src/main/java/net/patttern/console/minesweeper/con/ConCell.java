@@ -1,14 +1,14 @@
-package net.patttern.console.minesweeper.proto;
+package net.patttern.console.minesweeper.con;
 
 import net.patttern.console.minesweeper.proto.bases.BaseCell;
 
 import java.io.PrintStream;
 
 /**
- * Created by ebabenko on 28.08.15.
+ * Created by pattern on 30.08.15.
  */
-public abstract class ConsoleCell extends BaseCell<PrintStream> {
-  public ConsoleCell(int id) {
+public class ConCell extends BaseCell<PrintStream> {
+  public ConCell(int id) {
     super(id);
   }
 

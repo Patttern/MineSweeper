@@ -1,4 +1,4 @@
-package net.patttern.console.minesweeper.gui;
+package net.patttern.console.minesweeper.guiold;
 
 import net.patttern.console.minesweeper.proto.interfaces.Area;
 import net.patttern.console.minesweeper.proto.Cell;
@@ -27,20 +27,28 @@ public class GUIBoard extends JPanel implements Area {
     }
   }
 
-  @Override
-  public void setAreaSize(int width, int height) {
-
-  }
-
-  @Override
   public void drawBoard(Cell[][] cells) {
     this.cells = cells;
     this.repaint();
   }
 
-  @Override
   public void drawCell(int x, int y) {
     this.repaint();
+  }
+
+  @Override
+  public void prepare(net.patttern.console.minesweeper.proto.interfaces.Cell[][] cells) {
+
+  }
+
+  @Override
+  public void drawBoard() {
+
+  }
+
+  @Override
+  public void drawCell(net.patttern.console.minesweeper.proto.interfaces.Cell cell, int count) {
+
   }
 
   @Override
