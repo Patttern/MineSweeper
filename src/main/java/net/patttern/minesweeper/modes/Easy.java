@@ -18,10 +18,13 @@ public class Easy extends BaseLogic {
 
   @Override
   public void start() {
-    generator.prepare(linesOnArea, placesInLine);
-    cells = generator.generate();
-    mines = generator.makeMine(mineCount);
-    area.prepare(cells);
-    area.drawBoard();
+    if (!started) {
+      generator.prepare(linesOnArea, placesInLine);
+      cells = generator.generate();
+      mines = generator.makeMine(mineCount);
+      area.prepare(cells);
+      area.drawBoard();
+      super.start();
+    }
   }
 }

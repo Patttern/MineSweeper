@@ -1,6 +1,7 @@
 package net.patttern.minesweeper.gui;
 
 import net.patttern.minesweeper.proto.bases.BaseCell;
+import net.patttern.minesweeper.proto.interfaces.Area;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -11,6 +12,8 @@ import java.awt.image.BufferedImage;
 public class GUICell extends BaseCell<Graphics> {
   private int posX;
   private int posY;
+  private Font helvetica = new Font("Helvetica", Font.BOLD, 40);
+  public static final Color[] colors = {Color.LIGHT_GRAY, new Color(0, 0, 255), new Color(0, 164, 0), new Color(255, 0, 0), new Color(0, 0, 128), new Color(128, 0, 0), new Color(0, 128, 128), new Color(0, 0, 0), new Color(128, 128, 128)};
 
   public GUICell(int id) {
     super(id);
@@ -27,21 +30,35 @@ public class GUICell extends BaseCell<Graphics> {
     if (flag) {
       image = GUIRun.flag;
     } else {
-//      if (selected) {
+      if (selected) {
         if (mine) {
           image = GUIRun.mine;
         } else {
           image = GUIRun.transp;
         }
-//      } else {
-//        image = GUIRun.block;
-//      }
+      } else {
+        image = GUIRun.block;
+      }
     }
-    paint.drawImage(image, posX * GUIArea.PADDING + 1, posY * GUIArea.PADDING + 1, image.getWidth(), image.getHeight(), null);
+    paint.drawImage(image, posX, posY, image.getWidth(), image.getHeight(), null);
+    if (image == GUIRun.transp && count > 0) {
+      paint.setFont(helvetica);
+      paint.setColor(colors[count]);
+      paint.drawString(Integer.toString(count), posX + 5, posY + GUIArea.PADDING - 5);
+      paint.setColor(Color.CYAN);
+    }
   }
 
   public void setCoord(int x, int y) {
-    posX = x;
-    posY = y;
+    posX = x * GUIArea.PADDING + 1;
+    posY = y * GUIArea.PADDING + 1;
+  }
+
+  public int getPosX() {
+    return posX;
+  }
+
+  public int getPosY() {
+    return posY;
   }
 }

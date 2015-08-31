@@ -1,6 +1,7 @@
 package net.patttern.minesweeper.gui;
 
 import net.patttern.minesweeper.proto.bases.BaseAction;
+import net.patttern.minesweeper.proto.interfaces.Cell;
 import net.patttern.minesweeper.proto.interfaces.Logic;
 
 import java.awt.event.ActionEvent;
@@ -20,31 +21,62 @@ public class GUIAction extends BaseAction implements ActionListener, MouseListen
   @Override
   public void actionPerformed(ActionEvent e) {
     this.initGame();
+    GUIRun.generate.setEnabled(!logic.isStarted());
   }
 
   @Override
   public void mouseClicked(MouseEvent e) {
     ((GUIArea)area).repaint();
+    GUIRun.generate.setEnabled(!logic.isStarted());
   }
 
   @Override
   public void mousePressed(MouseEvent e) {
-    System.out.println("mousePressed");
   }
 
   @Override
   public void mouseReleased(MouseEvent e) {
-    System.out.println("mouseReleased");
-    //TODO action for cell
+    int line = 0;
+    int place = 0;
+    int posX;
+    int posY;
+    Cell[][] cells = logic.getCells();
+    for (int l = 0; l < cells.length; l++) {
+      line = l;
+      posY = ((GUICell)cells[l][0]).getPosY();
+      if (e.getY() < posY) {
+        line = l - 1;
+        break;
+      }
+    }
+    for (int p = 0; p < cells[0].length; p++) {
+      place = p;
+      posX = ((GUICell)cells[line][p]).getPosX();
+      if (e.getX() < posX) {
+        place = p - 1;
+        break;
+      }
+    }
+    if (e.isMetaDown()) {
+      markCell(line, place);
+    } else {
+      selectCell(line, place);
+    }
   }
 
   @Override
   public void mouseEntered(MouseEvent e) {
-    System.out.println("mouseEntered");
   }
 
   @Override
   public void mouseExited(MouseEvent e) {
-    System.out.println("mouseExited");
+  }
+
+  public Logic getLogic() {
+    return logic;
+  }
+
+  public void setLogic(Logic logic) {
+    this.logic = logic;
   }
 }

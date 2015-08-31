@@ -23,7 +23,7 @@ public class GUIArea extends JPanel implements Area, MouseListener {
     if (this.cells != null) {
       for (int line = 0; line < cells.length; line++) {
         for (int place = 0; place < cells[0].length; place++) {
-          graphics.setColor(Color.cyan);
+          graphics.setColor(Color.CYAN);
           cells[line][place].draw(graphics, nearMinesCount(line, place));
           graphics.drawRect(line * PADDING, place * PADDING, PADDING, PADDING);
         }
@@ -45,12 +45,12 @@ public class GUIArea extends JPanel implements Area, MouseListener {
 
   @Override
   public void drawBang() {
-
+    System.out.println("BANG!!! :(");
   }
 
   @Override
   public void drawCongratulate() {
-
+    System.out.println("Congratulation!!! =)");
   }
 
   /**

@@ -16,6 +16,11 @@ public abstract class BaseCell<T> implements Cell<T> {
   }
 
   @Override
+  public int getId() {
+    return id;
+  }
+
+  @Override
   public void setMine() {
     if (!mine && !flag && !selected) {
       mine = true;

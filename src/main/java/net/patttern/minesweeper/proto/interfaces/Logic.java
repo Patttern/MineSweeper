@@ -11,4 +11,10 @@ public interface Logic {
   void markCell(int line, int place);
 
   boolean finish();
+
+  Cell[][] getCells();
+
+  int[] getMines();
+
+  boolean isStarted();
 }

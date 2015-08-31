@@ -17,7 +17,7 @@ public class GUIGenerator extends BaseGenerator {
       for (int place = 0; place < placesInLine; place++) {
         int cellId = line * placesInLine + place + 1;
         GUICell cell = new GUICell(cellId);
-        cell.setCoord(line, place);
+        cell.setCoord(place, line);
         cells[line][place] = cell;
       }
     }

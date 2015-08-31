@@ -9,10 +9,12 @@ import net.patttern.minesweeper.proto.interfaces.Logic;
  * Created by ebabenko on 28.08.15.
  */
 public abstract class BaseLogic implements Logic {
+  protected boolean started = false;
   protected Area area;
   protected Generator generator;
   protected Cell[][] cells;
   protected int[] mines;
+  private int count = 0;
 
   public BaseLogic(Area area, Generator generator) {
     this.area = area;
@@ -20,21 +22,47 @@ public abstract class BaseLogic implements Logic {
   }
 
   @Override
-  abstract public void start();
+  public void start() {
+    started = true;
+  }
 
   @Override
   public void selectCell(int line, int place) {
     cells[line][place].select();
+    if (cells[line][place].isMine()) {
+      area.drawBang();
+      end();
+    } else if (finish()) {
+      area.drawCongratulate();
+      end();
+    }
   }
 
   @Override
   public void markCell(int line, int place) {
-    cells[line][place].mark();
+    if (count < mines.length || cells[line][place].isFlag()) {
+      cells[line][place].mark();
+      if (cells[line][place].isFlag()) {
+        count++;
+      } else {
+        count--;
+      }
+      if (finish()) {
+        area.drawCongratulate();
+        end();
+      }
+    } else {
+      System.out.println("Флагов больше нет");
+    }
   }
 
   @Override
   public boolean finish() {
     return isMinesFound() && isCellsOpened();
+  }
+
+  private void end() {
+    started = false;
   }
 
   private boolean isMinesFound() {
@@ -70,5 +98,20 @@ public abstract class BaseLogic implements Logic {
     int line = (int)Math.ceil((cellId - 1) / cells.length);
     int place = cellId - 1 - line * cells[0].length;
     return cells[line][place];
+  }
+
+  @Override
+  public Cell[][] getCells() {
+    return cells;
+  }
+
+  @Override
+  public int[] getMines() {
+    return mines;
+  }
+
+  @Override
+  public boolean isStarted() {
+    return started;
   }
 }
