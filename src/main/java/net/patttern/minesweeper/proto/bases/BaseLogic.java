@@ -28,31 +28,35 @@ public abstract class BaseLogic implements Logic {
 
   @Override
   public void selectCell(int line, int place) {
-    cells[line][place].select();
-    if (cells[line][place].isMine()) {
-      area.drawBang();
-      end();
-    } else if (finish()) {
-      area.drawCongratulate();
-      end();
+    if (started) {
+      cells[line][place].select();
+      if (cells[line][place].isMine()) {
+        area.drawBang();
+        end();
+      } else if (finish()) {
+        area.drawCongratulate();
+        end();
+      }
     }
   }
 
   @Override
   public void markCell(int line, int place) {
-    if (count < mines.length || cells[line][place].isFlag()) {
-      cells[line][place].mark();
-      if (cells[line][place].isFlag()) {
-        count++;
+    if (started) {
+      if (count < mines.length || cells[line][place].isFlag()) {
+        cells[line][place].mark();
+        if (cells[line][place].isFlag()) {
+          count++;
+        } else {
+          count--;
+        }
+        if (finish()) {
+          area.drawCongratulate();
+          end();
+        }
       } else {
-        count--;
+        System.out.println("Флагов больше нет");
       }
-      if (finish()) {
-        area.drawCongratulate();
-        end();
-      }
-    } else {
-      System.out.println("Флагов больше нет");
     }
   }
 

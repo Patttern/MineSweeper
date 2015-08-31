@@ -23,8 +23,8 @@ public class GUIArea extends JPanel implements Area, MouseListener {
     if (this.cells != null) {
       for (int line = 0; line < cells.length; line++) {
         for (int place = 0; place < cells[0].length; place++) {
-          graphics.setColor(Color.CYAN);
           cells[line][place].draw(graphics, nearMinesCount(line, place));
+          graphics.setColor(Color.CYAN);
           graphics.drawRect(line * PADDING, place * PADDING, PADDING, PADDING);
         }
       }

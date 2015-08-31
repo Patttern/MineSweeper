@@ -40,12 +40,13 @@ public class GUICell extends BaseCell<Graphics> {
         image = GUIRun.block;
       }
     }
+    paint.setColor(Color.CYAN);
     paint.drawImage(image, posX, posY, image.getWidth(), image.getHeight(), null);
     if (image == GUIRun.transp && count > 0) {
       paint.setFont(helvetica);
       paint.setColor(colors[count]);
       paint.drawString(Integer.toString(count), posX + 5, posY + GUIArea.PADDING - 5);
-      paint.setColor(Color.CYAN);
+//      paint.setColor(Color.CYAN);
     }
   }
 
