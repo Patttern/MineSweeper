@@ -11,4 +11,8 @@ public interface Area {
   void drawBang();
 
   void drawCongratulate();
+
+  void openAllCells();
+
+  void openCell(int line, int place);
 }

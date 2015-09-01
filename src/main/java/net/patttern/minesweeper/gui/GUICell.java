@@ -1,7 +1,6 @@
 package net.patttern.minesweeper.gui;
 
 import net.patttern.minesweeper.proto.bases.BaseCell;
-import net.patttern.minesweeper.proto.interfaces.Area;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -40,15 +39,15 @@ public class GUICell extends BaseCell<Graphics> {
     if (flag) {
       image = GUIRun.flag;
     } else {
-//      if (selected) {
+      if (selected) {
         if (mine) {
           image = GUIRun.mine;
         } else {
           image = GUIRun.transp;
         }
-//      } else {
-//        image = GUIRun.block;
-//      }
+      } else {
+        image = GUIRun.block;
+      }
     }
     paint.setColor(Color.CYAN);
     paint.drawImage(image, posX, posY, image.getWidth(), image.getHeight(), null);
@@ -56,7 +55,6 @@ public class GUICell extends BaseCell<Graphics> {
       paint.setFont(helvetica);
       paint.setColor(colors[count]);
       paint.drawString(Integer.toString(count), posX + 5, posY + GUIArea.PADDING - 5);
-//      paint.setColor(Color.CYAN);
     }
   }
 

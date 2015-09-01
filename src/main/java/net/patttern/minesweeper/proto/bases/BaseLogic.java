@@ -5,8 +5,7 @@ import net.patttern.minesweeper.proto.interfaces.Cell;
 import net.patttern.minesweeper.proto.interfaces.Generator;
 import net.patttern.minesweeper.proto.interfaces.Logic;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import javax.swing.*;
 
 /**
  * Created by ebabenko on 28.08.15.
@@ -18,7 +17,6 @@ public abstract class BaseLogic implements Logic {
   protected Cell[][] cells;
   protected int[] mines;
   private int count = 0;
-  private Cell[] filledCells;
 
   public BaseLogic(Area area, Generator generator) {
     this.area = area;
@@ -27,19 +25,21 @@ public abstract class BaseLogic implements Logic {
 
   @Override
   public void start() {
+    count = 0;
     started = true;
   }
 
   @Override
   public void selectCell(int line, int place) {
     if (started) {
-      cells[line][place].select();
       if (cells[line][place].isMine()) {
+        end();
         area.drawBang();
-        end();
       } else if (finish()) {
-        area.drawCongratulate();
         end();
+        area.drawCongratulate();
+      } else {
+        area.openCell(line, place);
       }
     }
   }
@@ -55,11 +55,12 @@ public abstract class BaseLogic implements Logic {
           count--;
         }
         if (finish()) {
-          area.drawCongratulate();
           end();
+          area.drawCongratulate();
         }
       } else {
-        System.out.println("Флагов больше нет");
+        JOptionPane.showMessageDialog(null, "<html><p>Можно использовать не более " + mines.length +
+          " флагов.<br/>:(</p></html>", "Флагов больше нет", JOptionPane.INFORMATION_MESSAGE);
       }
     }
   }
@@ -71,6 +72,7 @@ public abstract class BaseLogic implements Logic {
 
   private void end() {
     started = false;
+    area.openAllCells();
   }
 
   private boolean isMinesFound() {
@@ -88,7 +90,7 @@ public abstract class BaseLogic implements Logic {
     boolean result = true;
     if (result) {
       for (int line = 0; line < cells.length; line++) {
-        for (int place = 0; place < cells[0].length; place++) {
+        for (int place = 0; place < cells[line].length; place++) {
           result = result && ((cells[line][place].isMine() && cells[line][place].isFlag()) || cells[line][place].isSelected());
           if (!result) {
             break;
@@ -103,7 +105,7 @@ public abstract class BaseLogic implements Logic {
   }
 
   private Cell getCellById(int cellId) {
-    int line = (int)Math.ceil((cellId - 1) / cells.length);
+    int line = (int)Math.ceil((cellId - 1) / cells[0].length);
     int place = cellId - 1 - line * cells[0].length;
     return cells[line][place];
   }
@@ -121,10 +123,5 @@ public abstract class BaseLogic implements Logic {
   @Override
   public boolean isStarted() {
     return started;
-  }
-
-  private void floodFill(Cell cell) {
-    filledCells = new Cell[]{};
-    Queue<Integer> queue = new LinkedList<Integer>();
   }
 }

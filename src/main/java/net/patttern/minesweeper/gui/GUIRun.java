@@ -3,19 +3,13 @@ package net.patttern.minesweeper.gui;
 import net.patttern.minesweeper.modes.Easy;
 
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Toolkit;
-import java.awt.Window;
 
 /**
  * Created by pattern on 30.08.15.
@@ -26,8 +20,10 @@ public class GUIRun {
   public static BufferedImage flag;
   public static BufferedImage mine;
   private static final JPanel controlPanel = new JPanel();
-  public static final JButton generate = new JButton("Начать");
+  public static final JButton generate = new JButton("Новая игра");
   private static final GUIArea area = new GUIArea();
+  private static int width;
+  private static int height;
 
   public static void main(String[] args) {
     try {
@@ -35,6 +31,11 @@ public class GUIRun {
       block = ImageIO.read(GUIRun.class.getResourceAsStream("/images/cell-unknown.gif"));
       flag = ImageIO.read(GUIRun.class.getResourceAsStream("/images/cell-mine.gif"));
       mine = ImageIO.read(GUIRun.class.getResourceAsStream("/images/cell-bomb.gif"));
+      width = Easy.placesInLine * GUIArea.PADDING + 1;
+      height = Easy.linesOnArea * GUIArea.PADDING + 66;
+      UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+      System.setProperty("awt.useSystemAAFontSettings", "true");
+      System.setProperty("swing.aatext", "true");
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -42,7 +43,7 @@ public class GUIRun {
       final JFrame frame = new JFrame();
       frame.setTitle("Сапёр");
       frame.setLayout(new BorderLayout());
-      frame.setSize(500, 500);
+      frame.setSize(width, height);
       frame.add(area, BorderLayout.CENTER);
       area.setBorder(new EmptyBorder(10, 10, 10, 10));
       frame.add(controlPanel, BorderLayout.PAGE_END);
@@ -50,7 +51,6 @@ public class GUIRun {
       GUIAction action = new GUIAction(new Easy(area, new GUIGenerator()), area);
       area.addMouseListener(action);
       generate.addActionListener(action);
-//      generate.setEnabled(false);
       controlPanel.add(generate);
       frame.setLocationRelativeTo(null);
       frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

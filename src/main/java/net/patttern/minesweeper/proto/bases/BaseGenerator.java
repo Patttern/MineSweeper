@@ -8,10 +8,10 @@ import net.patttern.minesweeper.proto.interfaces.Generator;
  */
 public abstract class BaseGenerator implements Generator {
   private final int[][] minedArea = new int[][]{
-    {-1,  0, -2,  0},// top
+    {-1,  0, -2,  0}, // top
     { 0,  1,  0,  2}, // right
     { 1,  0,  2,  0}, // bottom
-    { 0, -1,  0, -2},// left
+    { 0, -1,  0, -2}, // left
     { 0, -1,  0,  1}, // 1 left and 1 right
     {-1,  0,  1,  0}  // 1 top and 1 bottom
   };

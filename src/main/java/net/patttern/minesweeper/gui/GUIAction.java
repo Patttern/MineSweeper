@@ -26,8 +26,8 @@ public class GUIAction extends BaseAction implements ActionListener, MouseListen
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    ((GUIArea)area).repaint();
     GUIRun.generate.setEnabled(!logic.isStarted());
+    ((GUIArea)area).repaint();
   }
 
   @Override
@@ -61,6 +61,9 @@ public class GUIAction extends BaseAction implements ActionListener, MouseListen
       markCell(line, place);
     } else {
       selectCell(line, place);
+    }
+    if (!logic.isStarted()) {
+      mouseClicked(e);
     }
   }
 

@@ -33,7 +33,7 @@ public class GUIGenerator extends BaseGenerator {
     while (possible.length > 0 && mined < mineCount) {
       int cellId = possible[rand.nextInt(possible.length)];
       possible = Arrays.stream(possible).filter(x -> x != cellId).toArray();
-      int line = (int)Math.ceil((cellId - 1) / linesOnArea);
+      int line = (int)Math.ceil((cellId - 1) / placesInLine);
       int place = cellId - 1 - line * placesInLine;
       if (canMined(line, place)) {
         cells[line][place].setMine();

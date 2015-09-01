@@ -1,5 +1,6 @@
 package net.patttern.minesweeper.gui;
 
+import net.patttern.minesweeper.proto.TempCell;
 import net.patttern.minesweeper.proto.interfaces.Area;
 import net.patttern.minesweeper.proto.interfaces.Cell;
 
@@ -7,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.*;
 
 /**
  * Created by pattern on 30.08.15.
@@ -26,16 +28,17 @@ public class GUIArea extends JPanel implements Area, MouseListener {
   private Cell[][] cells;
   private int linesOnArea;
   private int placesInLine;
+  private  Queue<TempCell> chekingCells;
 
   @Override
   public void paintComponent(Graphics graphics) {
     super.paintComponent(graphics);
     if (this.cells != null) {
-      for (int line = 0; line < cells.length; line++) {
-        for (int place = 0; place < cells[0].length; place++) {
+      for (int line = 0; line < linesOnArea; line++) {
+        for (int place = 0; place < placesInLine; place++) {
           cells[line][place].draw(graphics, nearMinesCount(line, place));
           graphics.setColor(Color.CYAN);
-          graphics.drawRect(line * PADDING, place * PADDING, PADDING, PADDING);
+          graphics.drawRect(place * PADDING, line * PADDING, PADDING, PADDING);
         }
       }
     }
@@ -55,12 +58,12 @@ public class GUIArea extends JPanel implements Area, MouseListener {
 
   @Override
   public void drawBang() {
-    System.out.println("BANG!!! :(");
+    JOptionPane.showMessageDialog(null, "<html><p>Вы подорвались на мине и проиграли...<br/>:(</p></html>", "BANG!!!", JOptionPane.ERROR_MESSAGE);
   }
 
   @Override
   public void drawCongratulate() {
-    System.out.println("Congratulation!!! =)");
+    JOptionPane.showMessageDialog(null, "<html><p>Вы отличный сапер, так как разминировали все мины!!!<br/>=)</p></html>", "УРА!!!", JOptionPane.ERROR_MESSAGE);
   }
 
   /**
@@ -101,27 +104,60 @@ public class GUIArea extends JPanel implements Area, MouseListener {
   }
 
   @Override
+  public void openAllCells() {
+    for (int line = 0; line < linesOnArea; line++) {
+      for (int place = 0; place < placesInLine; place++) {
+        cells[line][place].select();
+      }
+    }
+    drawBoard();
+  }
+
+  @Override
+  public void openCell(int line, int place) {
+    chekingCells = new LinkedList<TempCell>();
+    chekingCells.add(new TempCell(cells[line][place].getId(), line, place));
+    while (!chekingCells.isEmpty()) {
+      TempCell tmp = chekingCells.remove();
+      tmp.setNearMines(nearMinesCount(tmp.getLine(), tmp.getPlace()));
+      if (tmp.getNearMines() == 0) {
+        checkCells(tmp.getLine(), tmp.getPlace());
+      }
+      cells[tmp.getLine()][tmp.getPlace()].select();
+    }
+    drawBoard();
+  }
+
+  private void checkCells(int line, int place) {
+    for (int n = 0; n < nears.length; n++) {
+      int l = line + nears[n][0];
+      int p = place + nears[n][1];
+      if (cellInRange(l, p)) {
+        TempCell tmp = new TempCell(cells[l][p].getId(), l, p);
+        if (!chekingCells.contains(tmp) && !cells[l][p].isFlag() && !cells[l][p].isSelected()) {
+          chekingCells.add(tmp);
+        }
+      }
+    }
+  }
+
+  @Override
   public void mouseClicked(MouseEvent e) {
-    System.out.println("mouseClicked");
   }
 
   @Override
   public void mousePressed(MouseEvent e) {
-    System.out.println("mousePressed");
   }
 
   @Override
   public void mouseReleased(MouseEvent e) {
-    System.out.println("mouseReleased");
   }
 
   @Override
   public void mouseEntered(MouseEvent e) {
-
   }
 
   @Override
   public void mouseExited(MouseEvent e) {
-
   }
 }

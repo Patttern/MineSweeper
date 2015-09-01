@@ -1,7 +1,11 @@
 package net.patttern.minesweeper.proto.bases;
 
+import net.patttern.minesweeper.proto.TempCell;
 import net.patttern.minesweeper.proto.interfaces.Area;
 import net.patttern.minesweeper.proto.interfaces.Cell;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Created by pattern on 30.08.15.
@@ -20,6 +24,7 @@ public abstract class BaseArea implements Area {
   protected Cell[][] cells;
   protected int linesOnArea;
   protected int placesInLine;
+  private Queue<TempCell> chekingCells;
 
   @Override
   abstract public void prepare(Cell[][] cells);
@@ -68,5 +73,43 @@ public abstract class BaseArea implements Area {
       count += (cellMined(line + nears[n][0], place + nears[n][1]) ? 1 : 0);
     }
     return count;
+  }
+
+  @Override
+  public void openAllCells() {
+    for (int line = 0; line < linesOnArea; line++) {
+      for (int place = 0; place < placesInLine; place++) {
+        cells[line][place].select();
+      }
+    }
+    drawBoard();
+  }
+
+  @Override
+  public void openCell(int line, int place) {
+    chekingCells = new LinkedList<TempCell>();
+    chekingCells.add(new TempCell(cells[line][place].getId(), line, place));
+    while (!chekingCells.isEmpty()) {
+      TempCell tmp = chekingCells.remove();
+      tmp.setNearMines(nearMinesCount(tmp.getLine(), tmp.getPlace()));
+      if (tmp.getNearMines() == 0) {
+        checkCells(tmp.getLine(), tmp.getPlace());
+      }
+      cells[tmp.getLine()][tmp.getPlace()].select();
+    }
+    drawBoard();
+  }
+
+  private void checkCells(int line, int place) {
+    for (int n = 0; n < nears.length; n++) {
+      int l = line + nears[n][0];
+      int p = place + nears[n][1];
+      if (cellInRange(l, p)) {
+        TempCell tmp = new TempCell(cells[l][p].getId(), l, p);
+        if (!chekingCells.contains(tmp)) {
+          chekingCells.add(tmp);
+        }
+      }
+    }
   }
 }
