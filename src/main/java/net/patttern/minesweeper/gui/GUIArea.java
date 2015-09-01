@@ -6,14 +6,12 @@ import net.patttern.minesweeper.proto.interfaces.Cell;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.*;
 
 /**
  * Created by pattern on 30.08.15.
  */
-public class GUIArea extends JPanel implements Area, MouseListener {
+public class GUIArea extends JPanel implements Area {
   public static final int PADDING = 41;
   public static final int[][] nears = new int[][]{
     {-1,  0}, // n
@@ -139,25 +137,5 @@ public class GUIArea extends JPanel implements Area, MouseListener {
         }
       }
     }
-  }
-
-  @Override
-  public void mouseClicked(MouseEvent e) {
-  }
-
-  @Override
-  public void mousePressed(MouseEvent e) {
-  }
-
-  @Override
-  public void mouseReleased(MouseEvent e) {
-  }
-
-  @Override
-  public void mouseEntered(MouseEvent e) {
-  }
-
-  @Override
-  public void mouseExited(MouseEvent e) {
   }
 }

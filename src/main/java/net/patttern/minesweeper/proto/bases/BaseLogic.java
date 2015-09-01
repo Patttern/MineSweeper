@@ -31,7 +31,7 @@ public abstract class BaseLogic implements Logic {
 
   @Override
   public void selectCell(int line, int place) {
-    if (started) {
+    if (started && !cells[line][place].isFlag()) {
       if (cells[line][place].isMine()) {
         end();
         area.drawBang();
