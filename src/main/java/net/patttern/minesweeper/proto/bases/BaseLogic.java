@@ -5,6 +5,9 @@ import net.patttern.minesweeper.proto.interfaces.Cell;
 import net.patttern.minesweeper.proto.interfaces.Generator;
 import net.patttern.minesweeper.proto.interfaces.Logic;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * Created by ebabenko on 28.08.15.
  */
@@ -15,7 +18,7 @@ public abstract class BaseLogic implements Logic {
   protected Cell[][] cells;
   protected int[] mines;
   private int count = 0;
-//  private Cell[] filledCells;
+  private Cell[] filledCells;
 
   public BaseLogic(Area area, Generator generator) {
     this.area = area;
@@ -120,7 +123,8 @@ public abstract class BaseLogic implements Logic {
     return started;
   }
 
-//  private void floodFill(Cell cell) {
-//    filledCells = new Cell[]{};
-//  }
+  private void floodFill(Cell cell) {
+    filledCells = new Cell[]{};
+    Queue<Integer> queue = new LinkedList<Integer>();
+  }
 }
