@@ -44,10 +44,10 @@ public abstract class BaseGenerator implements Generator {
    * @return TRUE, если можно установить мину в ячейку, FALSE в ином случае.
    */
   protected boolean canMined(int line, int place) {
-    boolean can = !cellMined(line, place);
+    boolean can = !isCellMined(line, place);
     if (can) {
-      for (int m = 0; m < minedArea.length; m++) {
-        can = can && (!cellMined(line + minedArea[m][0], place + minedArea[m][1]) || !cellMined(line + minedArea[m][2], place + minedArea[m][3]));
+      for (int[] aMinedArea : minedArea) {
+        can = can && (!isCellMined(line + aMinedArea[0], place + aMinedArea[1]) || !isCellMined(line + aMinedArea[2], place + aMinedArea[3]));
       }
     }
     return can;
@@ -59,8 +59,8 @@ public abstract class BaseGenerator implements Generator {
    * @param place Место.
    * @return TRUE, если мина установлена в ячейке, FALSE в ином случае.
    */
-  protected boolean cellMined(int line, int place) {
-    return cellInRange(line, place) ? cells[line][place].isMine() : false;
+  private boolean isCellMined(int line, int place) {
+    return cellInRange(line, place) && cells[line][place].isMine();
   }
 
   /**
@@ -69,7 +69,7 @@ public abstract class BaseGenerator implements Generator {
    * @param place Место.
    * @return TRUE, если ячейка существует, FALSE в ином случае.
    */
-  protected boolean cellInRange(int line, int place) {
+  private boolean cellInRange(int line, int place) {
     return line >=0 && line < linesOnArea && place >=0 && place < placesInLine;
   }
 }

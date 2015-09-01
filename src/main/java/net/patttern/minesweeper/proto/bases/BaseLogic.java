@@ -12,13 +12,13 @@ import javax.swing.*;
  */
 public abstract class BaseLogic implements Logic {
   protected boolean started = false;
-  protected Area area;
-  protected Generator generator;
+  protected final Area area;
+  protected final Generator generator;
   protected Cell[][] cells;
   protected int[] mines;
   private int count = 0;
 
-  public BaseLogic(Area area, Generator generator) {
+  protected BaseLogic(Area area, Generator generator) {
     this.area = area;
     this.generator = generator;
   }
@@ -77,8 +77,8 @@ public abstract class BaseLogic implements Logic {
 
   private boolean isMinesFound() {
     boolean result = true;
-    for (int m = 0; m < mines.length; m++) {
-      result = result && getCellById(mines[m]).isFlag();
+    for (int mine : mines) {
+      result = getCellById(mine).isFlag();
       if (!result) {
         break;
       }
@@ -88,17 +88,15 @@ public abstract class BaseLogic implements Logic {
 
   private  boolean isCellsOpened() {
     boolean result = true;
-    if (result) {
-      for (int line = 0; line < cells.length; line++) {
-        for (int place = 0; place < cells[line].length; place++) {
-          result = result && ((cells[line][place].isMine() && cells[line][place].isFlag()) || cells[line][place].isSelected());
-          if (!result) {
-            break;
-          }
-        }
+    for (Cell[] cell : cells) {
+      for (Cell aCell : cell) {
+        result = ((aCell.isMine() && aCell.isFlag()) || aCell.isSelected());
         if (!result) {
           break;
         }
+      }
+      if (!result) {
+        break;
       }
     }
     return result;

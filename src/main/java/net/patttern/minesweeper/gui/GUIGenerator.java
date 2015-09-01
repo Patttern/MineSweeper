@@ -10,7 +10,7 @@ import java.util.stream.IntStream;
 /**
  * Created by pattern on 30.08.15.
  */
-public class GUIGenerator extends BaseGenerator {
+class GUIGenerator extends BaseGenerator {
   @Override
   public Cell[][] generate() {
     for (int line = 0; line < linesOnArea; line++) {

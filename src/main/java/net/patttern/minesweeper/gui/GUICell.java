@@ -8,11 +8,11 @@ import java.awt.image.BufferedImage;
 /**
  * Created by pattern on 30.08.15.
  */
-public class GUICell extends BaseCell<Graphics> {
+class GUICell extends BaseCell<Graphics> {
   private int posX;
   private int posY;
-  private Font helvetica = new Font("Helvetica", Font.BOLD, 40);
-  public static final Color[] colors = {
+  private final Font helvetica = new Font("Helvetica", Font.BOLD, 40);
+  private static final Color[] colors = {
     Color.LIGHT_GRAY,        // 0
     new Color(0, 0, 255),    // 1
     new Color(0, 164, 0),    // 2
@@ -26,11 +26,6 @@ public class GUICell extends BaseCell<Graphics> {
 
   public GUICell(int id) {
     super(id);
-  }
-
-  @Override
-  public void draw(Graphics paint) {
-    draw(paint, 0);
   }
 
   @Override

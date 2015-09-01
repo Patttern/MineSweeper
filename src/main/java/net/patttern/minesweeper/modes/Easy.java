@@ -10,7 +10,7 @@ import net.patttern.minesweeper.proto.interfaces.Generator;
 public class Easy extends BaseLogic {
   public static final int linesOnArea = 9;
   public static final int placesInLine = 9;
-  public static final int mineCount = 10;
+  private static final int mineCount = 10;
 
   public Easy(Area area, Generator generator) {
     super(area, generator);

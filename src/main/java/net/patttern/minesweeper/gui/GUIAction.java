@@ -12,10 +12,10 @@ import java.awt.event.MouseListener;
 /**
  * Created by pattern on 30.08.15.
  */
-public class GUIAction extends BaseAction implements ActionListener, MouseListener {
-  public GUIAction(Logic logic, GUIArea area) {
-    super(logic, area);
-    this.area = area;
+class GUIAction extends BaseAction implements ActionListener, MouseListener {
+  public GUIAction(Logic logic) {
+    super(logic, GUIRun.area);
+    this.area = GUIRun.area;
   }
 
   @Override
@@ -73,13 +73,5 @@ public class GUIAction extends BaseAction implements ActionListener, MouseListen
 
   @Override
   public void mouseExited(MouseEvent e) {
-  }
-
-  public Logic getLogic() {
-    return logic;
-  }
-
-  public void setLogic(Logic logic) {
-    this.logic = logic;
   }
 }

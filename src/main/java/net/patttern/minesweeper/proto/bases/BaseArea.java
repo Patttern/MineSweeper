@@ -11,7 +11,7 @@ import java.util.Queue;
  * Created by pattern on 30.08.15.
  */
 public abstract class BaseArea implements Area {
-  public static final int[][] nears = new int[][]{
+  private static final int[][] nears = new int[][]{
     {-1,  0}, // n
     {-1,  1}, // ne
     { 0,  1}, // e
@@ -24,7 +24,7 @@ public abstract class BaseArea implements Area {
   protected Cell[][] cells;
   protected int linesOnArea;
   protected int placesInLine;
-  private Queue<TempCell> chekingCells;
+  private Queue<TempCell> checkingCells;
 
   @Override
   abstract public void prepare(Cell[][] cells);
@@ -32,20 +32,14 @@ public abstract class BaseArea implements Area {
   @Override
   abstract public void drawBoard();
 
-  @Override
-  abstract public void drawBang();
-
-  @Override
-  abstract public void drawCongratulate();
-
   /**
    * Проверка, установлена ли в ячейке мина.
    * @param line Ряд.
    * @param place Место.
    * @return TRUE, если мина установлена в ячейке, FALSE в ином случае.
    */
-  protected boolean cellMined(int line, int place) {
-    return cellInRange(line, place) ? cells[line][place].isMine() : false;
+  private boolean cellMined(int line, int place) {
+    return cellInRange(line, place) && cells[line][place].isMine();
   }
 
   /**
@@ -54,7 +48,7 @@ public abstract class BaseArea implements Area {
    * @param place Место.
    * @return TRUE, если ячейка существует, FALSE в ином случае.
    */
-  protected boolean cellInRange(int line, int place) {
+  private boolean cellInRange(int line, int place) {
     return line >=0 && line < linesOnArea && place >=0 && place < placesInLine;
   }
 
@@ -69,8 +63,8 @@ public abstract class BaseArea implements Area {
    */
   protected int nearMinesCount(int line, int place) {
     int count = 1;
-    for (int n = 0; n < nears.length; n++) {
-      count += (cellMined(line + nears[n][0], place + nears[n][1]) ? 1 : 0);
+    for (int[] near : nears) {
+      count += (cellMined(line + near[0], place + near[1]) ? 1 : 0);
     }
     return count;
   }
@@ -87,10 +81,10 @@ public abstract class BaseArea implements Area {
 
   @Override
   public void openCell(int line, int place) {
-    chekingCells = new LinkedList<TempCell>();
-    chekingCells.add(new TempCell(cells[line][place].getId(), line, place));
-    while (!chekingCells.isEmpty()) {
-      TempCell tmp = chekingCells.remove();
+    checkingCells = new LinkedList<>();
+    checkingCells.add(new TempCell(cells[line][place].getId(), line, place));
+    while (!checkingCells.isEmpty()) {
+      TempCell tmp = checkingCells.remove();
       tmp.setNearMines(nearMinesCount(tmp.getLine(), tmp.getPlace()));
       if (tmp.getNearMines() == 0) {
         checkCells(tmp.getLine(), tmp.getPlace());
@@ -101,13 +95,13 @@ public abstract class BaseArea implements Area {
   }
 
   private void checkCells(int line, int place) {
-    for (int n = 0; n < nears.length; n++) {
-      int l = line + nears[n][0];
-      int p = place + nears[n][1];
+    for (int[] near : nears) {
+      int l = line + near[0];
+      int p = place + near[1];
       if (cellInRange(l, p)) {
         TempCell tmp = new TempCell(cells[l][p].getId(), l, p);
-        if (!chekingCells.contains(tmp)) {
-          chekingCells.add(tmp);
+        if (!checkingCells.contains(tmp)) {
+          checkingCells.add(tmp);
         }
       }
     }

@@ -20,9 +20,9 @@ public class GUIRun {
   public static BufferedImage mine;
 
   public static final JButton generate = new JButton("Новая игра");
+  public static final GUIArea area = new GUIArea();
 
   private static final JPanel controlPanel = new JPanel();
-  private static final GUIArea area = new GUIArea();
 
   private static int width;
   private static int height;
@@ -47,7 +47,7 @@ public class GUIRun {
       frame.setLayout(new BorderLayout());
       frame.setSize(width, height);
 
-      GUIAction action = new GUIAction(new Easy(area, new GUIGenerator()), area);
+      GUIAction action = new GUIAction(new Easy(area, new GUIGenerator()));
       area.addMouseListener(action);
       frame.add(area, BorderLayout.CENTER);
 
@@ -70,7 +70,7 @@ public class GUIRun {
     });
   }
 
-  public static void closePerform(JFrame frame) {
+  private static void closePerform(JFrame frame) {
     frame.setVisible(false);
     frame.dispose();
     System.exit(0);

@@ -13,11 +13,6 @@ public class ConsoleCell extends BaseCell<PrintStream> {
   }
 
   @Override
-  public void draw(PrintStream paint) {
-    draw(paint, 0);
-  }
-
-  @Override
   public void draw(PrintStream paint, int count) {
     if (flag) {
       paint.print("[?]");

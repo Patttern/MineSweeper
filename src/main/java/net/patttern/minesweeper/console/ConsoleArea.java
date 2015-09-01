@@ -42,11 +42,12 @@ public class ConsoleArea extends BaseArea {
 
   @Override
   public void drawBang() {
-
+    System.out.println("Bang! :(");
   }
 
   @Override
   public void drawCongratulate() {
-
+    System.out.println("Congratulation! =)");
   }
+
 }

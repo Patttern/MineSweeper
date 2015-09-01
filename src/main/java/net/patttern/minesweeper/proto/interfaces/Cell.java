@@ -18,7 +18,5 @@ public interface Cell<T> {
 
   void select();
 
-  void draw(T paint);
-
   void draw(T paint, int count);
 }

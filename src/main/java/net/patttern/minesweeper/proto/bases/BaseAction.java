@@ -8,10 +8,10 @@ import net.patttern.minesweeper.proto.interfaces.Logic;
  * Created by ebabenko on 28.08.15.
  */
 public abstract class BaseAction implements Action {
-  protected Logic logic;
+  protected final Logic logic;
   protected Area area;
 
-  public BaseAction(Logic logic, Area area) {
+  protected BaseAction(Logic logic, Area area) {
     this.logic = logic;
     this.area = area;
   }
