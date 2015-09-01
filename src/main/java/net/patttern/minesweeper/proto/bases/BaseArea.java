@@ -62,7 +62,7 @@ public abstract class BaseArea implements Area {
    * @return Количество заминированных ячеек.
    */
   protected int nearMinesCount(int line, int place) {
-    int count = 1;
+    int count = 0;
     for (int[] near : nears) {
       count += (cellMined(line + near[0], place + near[1]) ? 1 : 0);
     }
