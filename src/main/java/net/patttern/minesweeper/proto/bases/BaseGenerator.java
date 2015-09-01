@@ -7,6 +7,14 @@ import net.patttern.minesweeper.proto.interfaces.Generator;
  * Created by ebabenko on 28.08.15.
  */
 public abstract class BaseGenerator implements Generator {
+  private final int[][] minedArea = new int[][]{
+    {-1,  0, -2,  0},// top
+    { 0,  1,  0,  2}, // right
+    { 1,  0,  2,  0}, // bottom
+    { 0, -1,  0, -2},// left
+    { 0, -1,  0,  1}, // 1 left and 1 right
+    {-1,  0,  1,  0}  // 1 top and 1 bottom
+  };
   protected int linesOnArea;
   protected int placesInLine;
   protected Cell[][] cells;
@@ -36,34 +44,13 @@ public abstract class BaseGenerator implements Generator {
    * @return TRUE, если можно установить мину в ячейку, FALSE в ином случае.
    */
   protected boolean canMined(int line, int place) {
-    return
-      // Ячейка еще не заминирована?
-      !cellMined(line, place) &&
-        // Top
-        // [*]
-        // [*]
-        // [?]
-        (!cellMined(line-1, place) || !cellMined(line-2, place))
-        // Right
-        // [?][*][*]
-        && (!cellMined(line, place+1) || !cellMined(line, place+2))
-        // Bottom
-        // [?]
-        // [*]
-        // [*]
-        && (!cellMined(line+1, place) || !cellMined(line+2, place))
-        // Left
-        // [*][*][?]
-        && (!cellMined(line, place-1) || !cellMined(line, place-2))
-        // Left and Right
-        // [*][?][*]
-        && (!cellMined(line, place-1) || !cellMined(line, place+1))
-        // Top and Bottom
-        // [*]
-        // [?]
-        // [*]
-        && (!cellMined(line-1, place) || !cellMined(line+1, place))
-      ;
+    boolean can = !cellMined(line, place);
+    if (can) {
+      for (int m = 0; m < minedArea.length; m++) {
+        can = can && (!cellMined(line + minedArea[m][0], place + minedArea[m][1]) || !cellMined(line + minedArea[m][2], place + minedArea[m][3]));
+      }
+    }
+    return can;
   }
 
   /**
@@ -84,25 +71,5 @@ public abstract class BaseGenerator implements Generator {
    */
   protected boolean cellInRange(int line, int place) {
     return line >=0 && line < linesOnArea && place >=0 && place < placesInLine;
-  }
-
-  /**
-   * Количество заминированных ячеек, находящихся рядом.
-   * [*][*][*]
-   * [*][?][*]
-   * [*][*][*]
-   * @param line Ряд.
-   * @param place Место.
-   * @return Количество заминированных ячеек.
-   */
-  protected int nearMinesCount(int line, int place) {
-    return (cellMined(line-1, place) ? 1 : 0)
-      + (cellMined(line-1, place+1) ? 1 : 0)
-      + (cellMined(line, place+1) ? 1 : 0)
-      + (cellMined(line+1, place+1) ? 1 : 0)
-      + (cellMined(line+1, place) ? 1 : 0)
-      + (cellMined(line+1, place-1) ? 1 : 0)
-      + (cellMined(line, place-1) ? 1 : 0)
-      + (cellMined(line-1, place-1) ? 1 : 0);
   }
 }

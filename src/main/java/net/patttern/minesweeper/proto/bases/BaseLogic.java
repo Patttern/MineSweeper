@@ -15,6 +15,7 @@ public abstract class BaseLogic implements Logic {
   protected Cell[][] cells;
   protected int[] mines;
   private int count = 0;
+//  private Cell[] filledCells;
 
   public BaseLogic(Area area, Generator generator) {
     this.area = area;
@@ -118,4 +119,8 @@ public abstract class BaseLogic implements Logic {
   public boolean isStarted() {
     return started;
   }
+
+//  private void floodFill(Cell cell) {
+//    filledCells = new Cell[]{};
+//  }
 }

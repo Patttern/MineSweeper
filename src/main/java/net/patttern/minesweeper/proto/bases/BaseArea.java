@@ -7,6 +7,16 @@ import net.patttern.minesweeper.proto.interfaces.Cell;
  * Created by pattern on 30.08.15.
  */
 public abstract class BaseArea implements Area {
+  public static final int[][] nears = new int[][]{
+    {-1,  0}, // n
+    {-1,  1}, // ne
+    { 0,  1}, // e
+    { 1,  1}, // se
+    { 1,  0}, // s
+    { 1, -1}, // sw
+    { 0, -1}, // w
+    {-1, -1}  // nw
+  };
   protected Cell[][] cells;
   protected int linesOnArea;
   protected int placesInLine;
@@ -53,13 +63,10 @@ public abstract class BaseArea implements Area {
    * @return Количество заминированных ячеек.
    */
   protected int nearMinesCount(int line, int place) {
-    return (cellMined(line-1, place) ? 1 : 0)
-      + (cellMined(line-1, place+1) ? 1 : 0)
-      + (cellMined(line, place+1) ? 1 : 0)
-      + (cellMined(line+1, place+1) ? 1 : 0)
-      + (cellMined(line+1, place) ? 1 : 0)
-      + (cellMined(line+1, place-1) ? 1 : 0)
-      + (cellMined(line, place-1) ? 1 : 0)
-      + (cellMined(line-1, place-1) ? 1 : 0);
+    int count = 1;
+    for (int n = 0; n < nears.length; n++) {
+      count += (cellMined(line + nears[n][0], place + nears[n][1]) ? 1 : 0);
+    }
+    return count;
   }
 }

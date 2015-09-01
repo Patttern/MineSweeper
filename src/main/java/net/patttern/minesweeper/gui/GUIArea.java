@@ -13,6 +13,16 @@ import java.awt.event.MouseListener;
  */
 public class GUIArea extends JPanel implements Area, MouseListener {
   public static final int PADDING = 41;
+  public static final int[][] nears = new int[][]{
+    {-1,  0}, // n
+    {-1,  1}, // ne
+    { 0,  1}, // e
+    { 1,  1}, // se
+    { 1,  0}, // s
+    { 1, -1}, // sw
+    { 0, -1}, // w
+    {-1, -1}  // nw
+  };
   private Cell[][] cells;
   private int linesOnArea;
   private int placesInLine;
@@ -83,14 +93,11 @@ public class GUIArea extends JPanel implements Area, MouseListener {
    * @return Количество заминированных ячеек.
    */
   protected int nearMinesCount(int line, int place) {
-    return (cellMined(line-1, place) ? 1 : 0)
-      + (cellMined(line-1, place+1) ? 1 : 0)
-      + (cellMined(line, place+1) ? 1 : 0)
-      + (cellMined(line+1, place+1) ? 1 : 0)
-      + (cellMined(line+1, place) ? 1 : 0)
-      + (cellMined(line+1, place-1) ? 1 : 0)
-      + (cellMined(line, place-1) ? 1 : 0)
-      + (cellMined(line-1, place-1) ? 1 : 0);
+    int count = 0;
+    for (int n = 0; n < nears.length; n++) {
+      count += (cellMined(line + nears[n][0], place + nears[n][1]) ? 1 : 0);
+    }
+    return count;
   }
 
   @Override
