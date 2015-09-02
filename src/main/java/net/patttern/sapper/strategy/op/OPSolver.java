@@ -5,13 +5,15 @@
  * (one for the all set). This opened empty cell is called base.
  */
 
-package net.patttern.minesweeper.sapper.strategy.op;
+package net.patttern.sapper.strategy.op;
 
 import java.util.*;
 
-import net.patttern.minesweeper.sapper.strategy.Prediction;
-import net.patttern.minesweeper.sapper.strategy.Solver;
-import net.patttern.minesweeper.sapper.field.*;
+import net.patttern.sapper.field.FieldInfo;
+import net.patttern.sapper.field.GUIField;
+import net.patttern.sapper.strategy.Prediction;
+import net.patttern.sapper.strategy.Solver;
+import net.patttern.sapper.field.FieldCell;
 
 public class OPSolver implements Solver
 {

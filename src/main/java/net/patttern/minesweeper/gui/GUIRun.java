@@ -4,11 +4,10 @@ import net.patttern.minesweeper.modes.Easy;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.awt.FlowLayout;
 
 /**
  * Created by pattern on 30.08.15.
@@ -47,7 +46,7 @@ public class GUIRun {
       frame.setLayout(new BorderLayout());
       frame.setSize(width, height);
 
-      GUIAction action = new GUIAction(new Easy(area, new GUIGenerator()));
+      GUIAction action = new GUIAction(new Easy(area.getArea(), new GUIGenerator()));
       area.addMouseListener(action);
       frame.add(area, BorderLayout.CENTER);
 

@@ -6,18 +6,18 @@
  */
 
 //TODO: add the mode to open all possible cells.
-package net.patttern.minesweeper.sapper.gui;
+package net.patttern.sapper.gui;
 
 import java.awt.event.*;
 
 import javax.swing.*;
 
-import net.patttern.minesweeper.sapper.strategy.Prediction;
-import net.patttern.minesweeper.sapper.strategy.Solver;
-import net.patttern.minesweeper.sapper.strategy.op.AlgorithmException;
-import net.patttern.minesweeper.sapper.strategy.op.OPSolver;
-import net.patttern.minesweeper.sapper.field.FieldInfo;
-import net.patttern.minesweeper.sapper.field.GUIField;
+import net.patttern.sapper.strategy.Prediction;
+import net.patttern.sapper.strategy.Solver;
+import net.patttern.sapper.strategy.op.AlgorithmException;
+import net.patttern.sapper.strategy.op.OPSolver;
+import net.patttern.sapper.field.FieldInfo;
+import net.patttern.sapper.field.GUIField;
 
 public class MainFrame extends JFrame implements MouseListener
 {

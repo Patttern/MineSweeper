@@ -5,10 +5,10 @@
  * @version 1.0
  */
 
-package net.patttern.minesweeper.sapper.strategy;
+package net.patttern.sapper.strategy;
 
-import net.patttern.minesweeper.sapper.strategy.op.AlgorithmException;
-import net.patttern.minesweeper.sapper.field.FieldInfo;
+import net.patttern.sapper.strategy.op.AlgorithmException;
+import net.patttern.sapper.field.FieldInfo;
 
 public interface Solver
 {

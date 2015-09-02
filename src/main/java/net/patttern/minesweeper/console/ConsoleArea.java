@@ -49,5 +49,4 @@ public class ConsoleArea extends BaseArea {
   public void drawCongratulate() {
     System.out.println("Congratulation! =)");
   }
-
 }

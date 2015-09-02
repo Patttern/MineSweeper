@@ -7,7 +7,7 @@ import net.patttern.minesweeper.proto.interfaces.Logic;
  * Created by pattern on 29.08.15.
  */
 class ConsoleAction extends BaseAction {
-  public ConsoleAction(Logic logic, ConsoleArea area) {
-    super(logic, area);
+  public ConsoleAction(Logic logic) {
+    super(logic);
   }
 }

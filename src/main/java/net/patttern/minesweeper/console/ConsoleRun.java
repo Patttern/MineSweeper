@@ -8,7 +8,7 @@ import net.patttern.minesweeper.modes.Easy;
 public class ConsoleRun {
   private static final ConsoleArea area = new ConsoleArea();
   public static void main(String[] args) {
-    ConsoleAction action = new ConsoleAction(new Easy(area, new ConsoleGenerator()), area);
+    ConsoleAction action = new ConsoleAction(new Easy(area, new ConsoleGenerator()));
     action.initGame();
   }
 }

@@ -1,7 +1,6 @@
 package net.patttern.minesweeper.proto.bases;
 
 import net.patttern.minesweeper.proto.interfaces.Action;
-import net.patttern.minesweeper.proto.interfaces.Area;
 import net.patttern.minesweeper.proto.interfaces.Logic;
 
 /**
@@ -9,11 +8,9 @@ import net.patttern.minesweeper.proto.interfaces.Logic;
  */
 public abstract class BaseAction implements Action {
   protected final Logic logic;
-  protected Area area;
 
-  protected BaseAction(Logic logic, Area area) {
+  protected BaseAction(Logic logic) {
     this.logic = logic;
-    this.area = area;
   }
 
   @Override

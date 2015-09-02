@@ -5,9 +5,9 @@
  * @version 1.0
  */
 
-package net.patttern.minesweeper.sapper.strategy;
+package net.patttern.sapper.strategy;
 
-import net.patttern.minesweeper.sapper.field.FieldCell;
+import net.patttern.sapper.field.FieldCell;
 
 public class Prediction
 {

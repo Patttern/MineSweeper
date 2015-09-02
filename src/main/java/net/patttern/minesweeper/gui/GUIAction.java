@@ -13,8 +13,10 @@ import java.awt.event.MouseListener;
  * Created by pattern on 30.08.15.
  */
 class GUIAction extends BaseAction implements ActionListener, MouseListener {
+  private final GUIArea area;
+
   public GUIAction(Logic logic) {
-    super(logic, GUIRun.area);
+    super(logic);
     this.area = GUIRun.area;
   }
 
@@ -27,7 +29,7 @@ class GUIAction extends BaseAction implements ActionListener, MouseListener {
   @Override
   public void mouseClicked(MouseEvent e) {
     GUIRun.generate.setEnabled(!logic.isStarted());
-    ((GUIArea)area).repaint();
+    area.repaint();
   }
 
   @Override

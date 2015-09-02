@@ -6,7 +6,7 @@
  * @version 1.0
  */
 
-package net.patttern.minesweeper.sapper.field;
+package net.patttern.sapper.field;
 
 public class GUIField extends PlayingField
 {

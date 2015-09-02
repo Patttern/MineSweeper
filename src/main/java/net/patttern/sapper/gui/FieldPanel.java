@@ -5,16 +5,16 @@
  * @version 1.0
  */
 
-package net.patttern.minesweeper.sapper.gui;
+package net.patttern.sapper.gui;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-import net.patttern.minesweeper.sapper.strategy.Prediction;
-import net.patttern.minesweeper.sapper.field.FieldInfo;
-import net.patttern.minesweeper.sapper.field.GUIField;
+import net.patttern.sapper.strategy.Prediction;
+import net.patttern.sapper.field.FieldInfo;
+import net.patttern.sapper.field.GUIField;
 
 class FieldPanel extends JPanel
 {

@@ -26,6 +26,18 @@ public abstract class BaseArea implements Area {
   protected int placesInLine;
   private Queue<TempCell> checkingCells;
 
+  public Cell[][] getCells() {
+    return cells;
+  }
+
+  public int getLinesOnArea() {
+    return linesOnArea;
+  }
+
+  public int getPlacesInLine() {
+    return placesInLine;
+  }
+
   @Override
   abstract public void prepare(Cell[][] cells);
 
@@ -61,7 +73,7 @@ public abstract class BaseArea implements Area {
    * @param place Место.
    * @return Количество заминированных ячеек.
    */
-  protected int nearMinesCount(int line, int place) {
+  public int nearMinesCount(int line, int place) {
     int count = 0;
     for (int[] near : nears) {
       count += (cellMined(line + near[0], place + near[1]) ? 1 : 0);
@@ -100,7 +112,7 @@ public abstract class BaseArea implements Area {
       int p = place + near[1];
       if (cellInRange(l, p)) {
         TempCell tmp = new TempCell(cells[l][p].getId(), l, p);
-        if (!checkingCells.contains(tmp)) {
+        if (!checkingCells.contains(tmp) && !cells[l][p].isFlag() && !cells[l][p].isSelected()) {
           checkingCells.add(tmp);
         }
       }

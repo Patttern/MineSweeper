@@ -5,11 +5,11 @@
  * @version 1.0
  */
 
-package net.patttern.minesweeper.sapper.strategy.op;
+package net.patttern.sapper.strategy.op;
 
 import java.util.*;
 
-import net.patttern.minesweeper.sapper.field.FieldCell;
+import net.patttern.sapper.field.FieldCell;
 
 public class Element implements Comparable
 {

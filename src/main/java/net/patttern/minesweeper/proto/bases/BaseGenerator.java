@@ -3,6 +3,10 @@ package net.patttern.minesweeper.proto.bases;
 import net.patttern.minesweeper.proto.interfaces.Cell;
 import net.patttern.minesweeper.proto.interfaces.Generator;
 
+import java.util.Arrays;
+import java.util.Random;
+import java.util.stream.IntStream;
+
 /**
  * Created by ebabenko on 28.08.15.
  */
@@ -30,7 +34,27 @@ public abstract class BaseGenerator implements Generator {
   abstract public Cell[][] generate();
 
   @Override
-  abstract public int[] makeMine(int mineCount);
+  public int[] makeMine(int mineCount) {
+    int[] mines = new int[mineCount];
+    int[] possible = IntStream.rangeClosed(1, placesInLine * linesOnArea).toArray();
+    Random rand = new Random();
+    int mined = 0;
+    while (possible.length > 0 && mined < mineCount) {
+      int cellId = possible[rand.nextInt(possible.length)];
+      possible = Arrays.stream(possible).filter(x -> x != cellId).toArray();
+      int line = (int)Math.ceil((cellId - 1) / placesInLine);
+      int place = cellId - 1 - line * placesInLine;
+      if (canMined(line, place)) {
+        cells[line][place].setMine();
+        mines[mined] = cellId;
+        mined++;
+        System.out.println("Mined: cells[" + line + "][" + place + "]");
+      } else {
+        System.out.println("Remined: cells[" + line + "][" + place + "]");
+      }
+    }
+    return mines;
+  }
 
   /**
    * Проверка, можно ли установить мину в ячейку.
@@ -43,7 +67,7 @@ public abstract class BaseGenerator implements Generator {
    * @param place Место.
    * @return TRUE, если можно установить мину в ячейку, FALSE в ином случае.
    */
-  protected boolean canMined(int line, int place) {
+  private boolean canMined(int line, int place) {
     boolean can = !isCellMined(line, place);
     if (can) {
       for (int[] aMinedArea : minedArea) {

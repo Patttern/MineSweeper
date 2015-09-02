@@ -1,11 +1,11 @@
-/**
+package net.patttern.sapper; /**
  * Invoker.
  * 
  * @author Pestov Oleg
  * @version 1.0
  */
 
-import net.patttern.minesweeper.sapper.gui.MainFrame;
+import net.patttern.sapper.gui.MainFrame;
 
 public class StartManager
 {

@@ -6,7 +6,7 @@
  * @version 1.0
  */
 
-package net.patttern.minesweeper.sapper.strategy.op;
+package net.patttern.sapper.strategy.op;
 
 public class State
 {
